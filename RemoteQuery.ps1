@@ -44,7 +44,7 @@ Function RemoteQuery.ps1    #Set a name to the function
         {
         Get-wmiobject Win32_Product -computername $RemoteComputer | where-object {($_.name -match "^a.*|^e.*|^i.*|^o.*|^u.*")} | Sort-object Name | format-wide -column 1
         #Gather a list of all programs installed whose name starts with one of these letters a,e,i,o,u
-                Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-object DisplayName | where-object {($_.displayname -match "^a.*|^e.*|^i.*|^o.*|^u.*")} | Sort DisplayName 
+        Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-object DisplayName | where-object {($_.displayname -match "^a.*|^e.*|^i.*|^o.*|^u.*")} | Sort DisplayName 
         #Gather a similar list of installed programs according the registry values
         Write-output `n 
         #Adding a blank line to discriminate different sources 
