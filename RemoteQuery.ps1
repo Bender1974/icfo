@@ -4,10 +4,10 @@ PowerShell
 Version : 5.0
 
 Program to retrieve:
-        - all the users with admin rigths in a remote computer in revers alphabetical order
+        - all the users with admin rights in a remote computer in revers alphabetical order
         - or all the programs installed in a remote computer whose name starts with a vowel 
 
-AUTHOR      :  Xavier Cañas
+AUTHOR      :  Xavier CaÃ±as
 LAST UPDATED:  22/04/2019
 #>
 
