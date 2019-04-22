@@ -33,12 +33,14 @@ $AskFor
     PROCESS
         {
 IF($AskFor -match 'AdminUsers')
+#Execute the next commands if the value of "Askfor" parameter match with "AdminUsers"
 {
 $query="Associators of {Win32_Group.Domain='$RemoteComputer',Name='Administrators'} where Role=GroupComponent"
 get-wmiobject -query $query -ComputerName $RemoteComputer | Select Name | sort-object name -descending
 #Gather a list of users and groups from administrators local group in revers alphabetical order
 }
 Elseif ($AskFor -match 'InstalledSoftware')
+#Execute the next commands if the value of "Askfor" parameter match with "InstalledSoftware"
 {
 Get-wmiobject Win32_Product -computername $RemoteComputer | where-object {($_.name -match "^a.*") -or ($_.name -match "^e.*") -or ($_.name -match "^i.*") -or ($_.name -match "^o.*") -or ($_.name -match "^u.*")} | Sort-object Name | format-wide -column 1
 #Gather a list of all programs installed whose name starts with one of these letters a,e,i,o,u
