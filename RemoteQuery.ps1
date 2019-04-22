@@ -11,21 +11,25 @@ AUTHOR      :  Xavier Cañas
 LAST UPDATED:  22/04/2019
 #>
 
-Function RemoteQuery.ps1
+Function RemoteQuery.ps1    #Set a name to the function
 {
 
-[Alias('RQ')]
+[Alias('RQ')]    #Set an alias for the function's name
+$AskFor
 
     PARAM
         (
 [Parameter(Mandatory=$True)]
-$RemoteComputer    #Specifies the target computer for data query in first parameter (-remotecomputer)
+$RemoteComputer
+#Specifies the target computer for data query in first parameter (-remotecomputer).
+#"Mandatory" means the parameter is always requiered#
  ,
 [Parameter(Mandatory=$true)]
-[ValidateSet("AdminUsers","InstalledSoftware")]    #Specifies the only two accepted values in the second parameter (-InstalledSoftware)
+[ValidateSet("AdminUsers","InstalledSoftware")]
 $AskFor
+#Specifies the only two accepted values in the second parameter (-InstalledSoftware)
         )
-                
+
     PROCESS
         {
 IF($AskFor -match 'AdminUsers')
@@ -37,10 +41,14 @@ get-wmiobject -query $query -ComputerName $RemoteComputer | Select Name | sort-o
 Elseif ($AskFor -match 'InstalledSoftware')
 {
 Get-wmiobject Win32_Product -computername $RemoteComputer | where-object {($_.name -match "^a.*") -or ($_.name -match "^e.*") -or ($_.name -match "^i.*") -or ($_.name -match "^o.*") -or ($_.name -match "^u.*")} | Sort-object Name | format-wide -column 1
-Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-object DisplayName | where-object {($_.displayname -match "^a.*") -or ($_.displayname -match "^e.*") -or ($_.displayname -match "^i.*") -or ($_.displayname -match "^o.*") -or ($_.displayname -match "^u.*")} | Sort DisplayName 
-Write-output `n 
-Get-ItemProperty HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-object DisplayName | where-object {($_.displayname -match "^a.*") -or ($_.displayname -match "^e.*") -or ($_.displayname -match "^i.*") -or ($_.displayname -match "^o.*") -or ($_.displayname -match "^u.*")} | Sort DisplayName
 #Gather a list of all programs installed whose name starts with one of these letters a,e,i,o,u
+Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-object DisplayName | where-object {($_.displayname -match "^a.*") -or ($_.displayname -match "^e.*") -or ($_.displayname -match "^i.*") -or ($_.displayname -match "^o.*") -or ($_.displayname -match "^u.*")} | Sort DisplayName 
+#Gather a similar list of installed programs according the registry values
+Write-output `n 
+#Adding a blank line to discriminate diferent sources 
+Get-ItemProperty HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-object DisplayName | where-object {($_.displayname -match "^a.*") -or ($_.displayname -match "^e.*") -or ($_.displayname -match "^i.*") -or ($_.displayname -match "^o.*") -or ($_.displayname -match "^u.*")} | Sort DisplayName
+#Gather another similar list from another folder of the registry
+
 }
         }
 }
