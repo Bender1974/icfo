@@ -45,7 +45,7 @@ Get-wmiobject Win32_Product -computername $RemoteComputer | where-object {($_.na
 Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-object DisplayName | where-object {($_.displayname -match "^a.*") -or ($_.displayname -match "^e.*") -or ($_.displayname -match "^i.*") -or ($_.displayname -match "^o.*") -or ($_.displayname -match "^u.*")} | Sort DisplayName 
 #Gather a similar list of installed programs according the registry values
 Write-output `n 
-#Adding a blank line to discriminate diferent sources 
+#Adding a blank line to discriminate different sources 
 Get-ItemProperty HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-object DisplayName | where-object {($_.displayname -match "^a.*") -or ($_.displayname -match "^e.*") -or ($_.displayname -match "^i.*") -or ($_.displayname -match "^o.*") -or ($_.displayname -match "^u.*")} | Sort DisplayName
 #Gather another similar list from another folder of the registry
 
