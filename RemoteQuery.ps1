@@ -35,9 +35,15 @@ Function RemoteQuery.ps1    #Set a name to the function
         IF($AskFor -match 'AdminUsers')
         #Execute the next commands if the value of "Askfor" parameter matches with "AdminUsers"
         {
-        $query="Associators of {Win32_Group.Domain='$RemoteComputer',Name='Administrators'} where Role=GroupComponent"
+        $query="Associators of {Win32_Group.Domain='$RemoteComputer',Name='Administrators'} where Role=GroupComponent"  #from wbemtest
         get-wmiobject -query $query -ComputerName $RemoteComputer | Select Name | sort-object name -descending
+        $group=get-wmiobject win32_group -filter "name='Administradores'"
         #Gather a list of users and groups from administrators local group in revers alphabetical order
+        
+        # It also works:
+        #$group.GetRelated("win32_useraccount") | format-wide -column 1
+        #$group.GetRelated("win32_systemaccount") | format-wide -column 1
+        
         }
         Elseif ($AskFor -match 'InstalledSoftware')
         #Execute the next commands if the value of "Askfor" parameter matches with "InstalledSoftware"
