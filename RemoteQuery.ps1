@@ -41,9 +41,13 @@ Function RemoteQuery.ps1    #Set a name to the function
         #Gather a list of users and groups from administrators local group in revers alphabetical order
         
         # It also works like this:
-        # $group=get-wmiobject win32_group -filter "name='Administrators'"
+        # $group=get-wmiobject win32_group -filter "name='Administrators'" -ComputerName $RemoteComputer 
         # $group.GetRelated("win32_useraccount") | format-wide -column 1
         # $group.GetRelated("win32_systemaccount") | format-wide -column 1
+        
+        #or
+        
+        # Gwmi win32_groupuser -ComputerName $RemoteComputer  | where-object {$_.groupcomponent –like '*"Administrators"'} | format-wide -column 1  -Property partcomponent
         
         }
         Elseif ($AskFor -match 'InstalledSoftware')
